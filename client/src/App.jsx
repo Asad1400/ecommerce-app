@@ -11,6 +11,7 @@ import banner4 from "./assets/banner4.jpg";
 import banner5 from "./assets/banner3.jpg";
 import Navbar from './components/NavBar';
 
+
 function App() {
 
   const bannerImages = [banner1, banner2, banner3, banner4, banner5];
