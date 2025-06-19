@@ -8,7 +8,11 @@ function App() {
 
   return (
     <>
+    <div className='flex'>
       <h1 className='text-3xl font-bold bg-red-500'>Hello</h1>
+      <h1 className='text-xl'>Ahmad</h1>
+    </div>
+
     </>
   )
 }
