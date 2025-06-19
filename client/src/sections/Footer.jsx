@@ -17,18 +17,18 @@
               <h1 className="font-bold">i’m lovin’ it®</h1>
               <p className="font-semibold">Get shoes ready for the new term at your nearest Nike store. Find Your perfect Size In Store. Get Rewards
               </p>
-              
+
             </div>
 
             <div className="flex flex-row">
-              <div className="flex justify-center  bg-gray-700 rounded-full w-5 h-5">
+              <div className="flex justify-center  bg-gray-700 rounded-full w-10 h-10">
               <img src={facebook} alt=""/>
               </div>
-              <div  className="flex justify-center  bg-gray-700 rounded-full w-5 h-5">
+              <div  className="flex justify-center  bg-gray-700 rounded-full w-10 h-10">
                 <img src={ig} alt="" />
               </div>
               
-              <div  className="flex justify-center  bg-gray-700 rounded-full w-5 h-5">
+              <div  className="flex justify-center  bg-gray-700 rounded-full w-10 h-10">
                 <img src={X} alt="" />
               </div>
             </div>
