@@ -9,7 +9,7 @@ const HeroSlider = ({ images }) => {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [images.length]);

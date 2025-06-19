@@ -3,14 +3,13 @@ import './App.css'
 import Footer from './sections/Footer';
 import HeroSlider from "./sections/HeroSlider";
 
-// Import local images
 import banner1 from "./assets/banner1.jpg";
 import banner2 from "./assets/banner2.jpg";
 import banner3 from "./assets/banner3.jpg";
 import banner4 from "./assets/banner4.jpg";
 import banner5 from "./assets/banner3.jpg";
 import Navbar from './components/NavBar';
-
+import OurProducts from './sections/OurProducts';
 
 function App() {
 
@@ -23,7 +22,9 @@ function App() {
       <div className='w-full h-full overflow-hidden'>
         <Navbar />
         <HeroSlider images={bannerImages} />
+        <OurProducts/>
         <Footer/>
+
       </div>
     </main>
     </>
