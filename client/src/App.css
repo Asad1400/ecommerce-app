@@ -1,0 +1,8 @@
+/* App.css */
+::-webkit-scrollbar {
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 4px;
+}
