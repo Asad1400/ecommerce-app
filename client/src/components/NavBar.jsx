@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../assets/Logo.png";
+import { FaUser } from "react-icons/fa"; // 👈 Import user icon
 
 const Navbar = () => {
   return (
@@ -48,8 +49,16 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Right-side blank (or put buttons etc. here) */}
-        <div></div>
+        {/* Right-side Icon/Button */}
+          <div className="flex justify-end">
+            <a
+              href="/Login"
+              className="flex items-center gap-2 px-4 py-2 text-white font-medium hover:text-orange-500 transition"
+            >
+              <FaUser className="text-lg" />
+              Login
+            </a>
+          </div>
       </div>
     </nav>
   );
