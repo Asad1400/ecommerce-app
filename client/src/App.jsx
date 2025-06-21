@@ -9,7 +9,7 @@ import banner4 from "./assets/banner4.jpg";
 import banner5 from "./assets/banner3.jpg";
 import Navbar from './components/NavBar';
 import FoodCard from './sections/FoodCard';
-import { Route,  Routes } from "react-router-dom"
+// import { Route,  Routes } from "react-router-dom"
 import Signup from './components/Signup';
 
 function App() {
