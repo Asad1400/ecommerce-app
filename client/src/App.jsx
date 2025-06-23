@@ -21,11 +21,11 @@ function App() {
     <>
     <main>
       <div className='w-full h-full overflow-hidden'>
-        {/* <Navbar />
+        <Navbar />
         <HeroSlider images={bannerImages} />
         <FoodCard/>
-        <Footer/> */}
-        <Signup />
+        <Footer/>
+      {/* <Signup /> */}
       </div>
     </main>
     </>

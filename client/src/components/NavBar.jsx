@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../assets/Logo.png";
-import { FaUser } from "react-icons/fa"; // 👈 Import user icon
+import { FaUser } from "react-icons/fa"; 
 
 const Navbar = () => {
   return (
