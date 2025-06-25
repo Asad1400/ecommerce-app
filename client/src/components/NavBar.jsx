@@ -18,10 +18,10 @@ const Navbar = () => {
             {[
               { icon: <FaHome />, label: "Home" },
               { icon: <FaSearch />, label: "Search" },
-              { icon: <FaShoppingCart />, label: "Cart" },
+              { icon: <FaShoppingCart />, label: "Cart", id: "cart-icon" },
               { icon: <FaBurger />, label: "Burger" },
             ].map((item, index) => (
-              <li key={index} className="relative group">
+              <li key={index} className="relative group" id={item.label === "Cart" ? "cart-icon" : undefined}>
                 <div className="flex items-center justify-center h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
                   <span className="absolute inset-0 border-2 border-orange-500 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
                   <span className="z-10 text-2xl text-white group-hover:text-orange-500 transition">
