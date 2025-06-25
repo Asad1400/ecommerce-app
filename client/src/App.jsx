@@ -23,10 +23,10 @@ function App() {
     <main>
       <div className='w-full h-full overflow-hidden'>
         <Navbar />
+        <AddToCart/>
         <HeroSlider images={bannerImages} />
         <FoodCard/>
         <Footer/>
-        {/* <AddToCart/> */}
       {/* <Signup /> */}
         
       </div>
