@@ -11,6 +11,7 @@ import Navbar from './components/NavBar';
 import FoodCard from './sections/FoodCard';
 // import { Route,  Routes } from "react-router-dom"
 import Signup from './components/Signup';
+import AddToCart from './sections/AddToCart';
 
 function App() {
 
@@ -25,7 +26,9 @@ function App() {
         <HeroSlider images={bannerImages} />
         <FoodCard/>
         <Footer/>
+        {/* <AddToCart/> */}
       {/* <Signup /> */}
+        
       </div>
     </main>
     </>
