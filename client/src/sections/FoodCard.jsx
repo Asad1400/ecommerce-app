@@ -57,4 +57,4 @@ const FoodCard = () => {
   );
 };
 
-export default FoodCard;
+export default FoodCard
