@@ -27,7 +27,7 @@ function App() {
         <HeroSlider images={bannerImages} />
         <FoodCard/>
         <Footer/>
-      {/* <Signup /> */}
+      <Signup /> 
         
       </div>
     </main>
