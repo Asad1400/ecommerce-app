@@ -14,6 +14,8 @@ import Signup from './components/Signup';
 import AddToCart from './sections/AddToCart';
 import Login from './components/Login'
 import Profile from './components/Profile'
+import { Route, Routes } from 'react-router-dom'
+import Body from './sections/Body';
 
 function App() {
 
@@ -24,15 +26,25 @@ function App() {
     <>
     <main>
       <div className='w-full h-full overflow-hidden'>
-        <Navbar />
+        {/* <Navbar />
         <AddToCart/>
         <HeroSlider images={bannerImages} />
         <FoodCard/>
-        <Footer/>
-        <Signup /> 
-        <Login/>
-        <Profile/>
+        <Footer/> */}
+        {/* <Signup />  */}
+        {/* <Login/>
+        <Profile/> */}
         
+        <Routes>
+          <Route path='/' element={<Navbar />}>
+            <Route path='' element={<Body />} />
+            <Route path='search' element={<div>Search Page</div>} />
+            <Route path='cart' element={<AddToCart />} />
+          </Route>
+          <Route path='Login' element={<Login />} />
+          <Route path='Signup' element={<Signup />} />
+          <Route path='*' element={<div>Page Not Found</div>} />
+        </Routes>
       </div>
     </main>
     </>

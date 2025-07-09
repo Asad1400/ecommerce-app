@@ -5,6 +5,7 @@ import banner2 from "../assets/banner2.jpg";
 import banner3 from "../assets/banner3.jpg";
 import banner4 from "../assets/banner4.jpg";
 import banner5 from "../assets/banner5.jpg";
+import { Link } from "react-router-dom";
 
 const banners = [banner1, banner2, banner3, banner4, banner5];
 
@@ -23,12 +24,14 @@ const Login = () => {
       {/* Left side - Login Form */}
       <div className="w-full md:w-1/2 h-full px-[15px] py-[10px] bg-white shadow-xl relative flex flex-col items-center justify-center">
         {/* Back Button */}
-        <button
-          className="absolute top-6 left-6 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm font-semibold transition duration-300"
-        >
-          <FaArrowLeft />
-          Back to Home
-        </button>
+        <Link to='/'>
+          <button
+            className="absolute top-6 left-6 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm font-semibold transition duration-300"
+          >
+            <FaArrowLeft />
+            Back to Home
+          </button>
+        </Link>
 
         <div className="w-full max-w-md space-y-6 text-gray-700 mt-20 mb-10">
           <div className="text-center">

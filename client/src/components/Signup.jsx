@@ -5,6 +5,8 @@ import banner2 from "../assets/banner2.jpg";
 import banner3 from "../assets/banner3.jpg";
 import banner4 from "../assets/banner4.jpg";
 import banner5 from "../assets/banner5.jpg";
+import { Link } from "react-router-dom";
+import Login from "./Login";
 
 const banners = [banner1, banner2, banner3, banner4, banner5];
 
@@ -46,11 +48,13 @@ const Signup = () => {
     <div className="h-screen flex overflow-hidden font-[sans-serif]">
       {/* Left side - Signup Form */}
       <div className="w-full md:w-1/2 h-full px-[15px] py-[10px] bg-white shadow-xl relative flex flex-col items-center justify-center">
-        <button className="absolute top-6 left-6 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm font-semibold transition duration-300">
-          <FaArrowLeft />
-          Back to Home
-        </button>
-
+        <Link to='/'>
+          <button className="absolute top-6 left-6 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm font-semibold transition duration-300">
+            <FaArrowLeft />
+            Back to Home
+          </button>
+        </Link>
+        
         {/* Step Indicator with Line */}
         <div className="flex items-center justify-center">
           <button
@@ -172,19 +176,13 @@ const Signup = () => {
             )}
           </form>
 
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-3 py-3 mt-4 border border-orange-400 text-orange-600 font-medium rounded-md hover:bg-orange-50 transition duration-300"
-          >
-            <FaGoogle className="text-lg" />
-            Sign up with Google
-          </button>
-
           <p className="text-sm text-center text-gray-600 mt-2 mb-10">
             Already have an account?
-            <span className="text-orange-500 font-semibold cursor-default ml-1">
-              Login
-            </span>
+            <Link to="/Login">
+              <span className="text-orange-500 font-semibold cursor-default ml-1">
+                Login
+              </span>
+            </Link>
           </p>
         </div>
       </div>
