@@ -5,9 +5,6 @@ const onClose = () => setIsOpen(false);
 
 const AddToCart = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const onClose = () => setIsOpen(false);
 
   useEffect(() => {
     const cartIcon = document.getElementById("cart-icon");
@@ -46,8 +43,6 @@ const AddToCart = ({ isOpen, onClose }) => {
       <div className="p-4">
         <p>Your cart is empty.</p>
         {/* Add cart items here */}
-      <div className="p-4">
-        <p>Your cart is empty.</p>
       </div>
     </div>
   );
