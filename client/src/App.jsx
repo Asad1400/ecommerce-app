@@ -16,39 +16,50 @@ import Login from './components/Login'
 import Profile from './components/Profile'
 import { Route, Routes } from 'react-router-dom'
 import Body from './sections/Body';
+import OrderSummary from './sections/OrderSummary';
 
 function App() {
+  const [cartItems, setCartItems] = useState([]);
+  const [showCart, setShowCart] = useState(false);
 
-  const bannerImages = [banner1, banner2, banner3, banner4, banner5];
-  const [count, setCount] = useState(0)
+  const addToCart = (item) => {
+    const newItem = { ...item, quantity: 1 };
+    setCartItems((prev) => [...prev, newItem]);
+    setShowCart(true);
+  };
+
+  const handleQuantityChange = (index, newQty) => {
+    const updated = [...cartItems];
+    updated[index].quantity = newQty;
+    setCartItems(updated);
+  };
+
+  const handleDeleteItem = (index) => {
+    const updated = cartItems.filter((_, i) => i !== index);
+    setCartItems(updated);
+  };
 
   return (
-    <>
     <main>
-      <div className='w-full h-full overflow-hidden'>
-        {/* <Navbar />
-        <AddToCart/>
-        <HeroSlider images={bannerImages} />
-        <FoodCard/>
-        <Footer/> */}
-        {/* <Signup />  */}
-        {/* <Login/>
-        <Profile/> */}
-        
+      <div className="w-full h-full overflow-hidden">
+        <Navbar cartItems={cartItems} setCartItems={setCartItems} />
+        <AddToCart
+          isOpen={showCart}
+          onClose={() => setShowCart(false)}
+          items={cartItems}
+          onQuantityChange={handleQuantityChange}
+          onDeleteItem={handleDeleteItem}
+        />
         <Routes>
-          <Route path='/' element={<Navbar />}>
-            <Route path='' element={<Body />} />
-            <Route path='search' element={<div>Search Page</div>} />
-            <Route path='cart' element={<AddToCart />} />
-          </Route>
-          <Route path='Login' element={<Login />} />
-          <Route path='Signup' element={<Signup />} />
-          <Route path='*' element={<div>Page Not Found</div>} />
+          <Route path="/" element={<Body addToCart={addToCart} />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="*" element={<div>Page Not Found</div>} />
+          <Route path="/order-summary" element = {<OrderSummary/>}/>
         </Routes>
       </div>
     </main>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
