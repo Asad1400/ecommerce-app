@@ -83,6 +83,8 @@ const Footer = () => {
             <div className="font-thin">Deals</div>
             <div className="font-thin">All products</div>
         </div>
+        
+        
       </div>
 
       <div className="flex w-full justify-between flex-ro mt-20">
@@ -95,6 +97,11 @@ const Footer = () => {
            Terms and Conditions
         </div>
       </div>
+
+
+
+      
+
     </footer>
   );
 };

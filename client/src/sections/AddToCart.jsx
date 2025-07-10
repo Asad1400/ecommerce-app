@@ -1,3 +1,30 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const AddToCart = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const onClose = () => setIsOpen(false);
+
+  useEffect(() => {
+    const cartIcon = document.getElementById("cart-icon");
+
+    const handleClick = () => {
+      setIsOpen(prev => !prev); // toggle open/close
+    };
+
+    if (cartIcon) {
+      cartIcon.addEventListener("click", handleClick);
+    }
+
+    return () => {
+      if (cartIcon) {
+        cartIcon.removeEventListener("click", handleClick);
+      }
+    };
+  }, []);
+
 const AddToCart = ({ isOpen, onClose }) => {
   return (
     <div
@@ -5,7 +32,6 @@ const AddToCart = ({ isOpen, onClose }) => {
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >
-
       <div className="p-4 border-b font-bold text-xl flex justify-between items-center">
         Cart
         <button
@@ -17,27 +43,8 @@ const AddToCart = ({ isOpen, onClose }) => {
       </div>
       <div className="p-4">
         <p>Your cart is empty.</p>
+        {/* Add cart items here */}
       </div>
-
-      {items.length > 0 && (
-        <div className="p-4 border-t">
-          <div className="flex justify-between mb-3">
-            <span className="font-semibold">Total:</span>
-            <span className="font-bold text-green-600">
-              $ {totalPrice.toFixed(2)}
-            </span>
-          </div>
-    <button
-      className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600"
-      onClick={() => {
-        onClose();
-        navigate('/order-summary', { state: { items } });
-      }}
-    >
-      Place Order
-    </button>
-        </div>
-      )}
     </div>
   );
 };
