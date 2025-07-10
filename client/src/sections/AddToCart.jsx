@@ -1,3 +1,27 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const AddToCart = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const cartIcon = document.getElementById("cart-icon");
+
+    const handleClick = () => {
+      setIsOpen(prev => !prev); // toggle open/close
+    };
+
+    if (cartIcon) {
+      cartIcon.addEventListener("click", handleClick);
+    }
+
+    return () => {
+      if (cartIcon) {
+        cartIcon.removeEventListener("click", handleClick);
+      }
+    };
+  }, []);
+
 const AddToCart = ({ isOpen, onClose }) => {
   return (
     <div
@@ -14,6 +38,9 @@ const AddToCart = ({ isOpen, onClose }) => {
           Close
         </button>
       </div>
+      <div className="p-4">
+        <p>Your cart is empty.</p>
+        {/* Add cart items here */}
       <div className="p-4">
         <p>Your cart is empty.</p>
       </div>
