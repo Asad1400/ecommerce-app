@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { burgers, wraps, familydeal } from '../constants';
 import OurFoodCard from '../components/OurFoodCard';
 import FoodCardDetails from '../components/FoodCardDetails';
+import ReviewSection from '../sections/ReviewSection';
 
 const FoodCard = ({ addToCart }) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -59,6 +60,7 @@ const FoodCard = ({ addToCart }) => {
         />
 
       )}
+      <ReviewSection />
 
     </>
   );
