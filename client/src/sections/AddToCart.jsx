@@ -5,6 +5,9 @@ const onClose = () => setIsOpen(false);
 
 const AddToCart = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const onClose = () => setIsOpen(false);
 
   useEffect(() => {
     const cartIcon = document.getElementById("cart-icon");
