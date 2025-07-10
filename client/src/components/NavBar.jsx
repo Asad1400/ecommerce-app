@@ -5,13 +5,14 @@ import { FaBurger } from "react-icons/fa6";
 import { Link, Outlet } from "react-router-dom";
 import AddToCart from "../sections/AddToCart";
 import SearchModal from "../components/SearchModal";
+import { burgers, wraps, familydeal } from "../constants/index";
 
 const scrollToSection = (id) => {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: "smooth" });
 };
 
-const Navbar = () => {
+const Navbar = ({ cartItems, setCartItems }) => {
   const [showCart, setShowCart] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
@@ -91,8 +92,16 @@ const Navbar = () => {
       </nav>
 
       {/* Modals */}
-      <AddToCart isOpen={showCart} onClose={() => setShowCart(false)} />
-      <SearchModal isOpen={showSearch} onClose={() => setShowSearch(false)} />
+      <AddToCart
+        isOpen={showCart}
+        onClose={() => setShowCart(false)}
+        items={cartItems}
+      />
+      <SearchModal
+        isOpen={showSearch}
+        onClose={() => setShowSearch(false)}
+        items={[...burgers, ...wraps, ...familydeal]} // ✅ Sending items to SearchModal
+      />
 
       <Outlet />
     </>

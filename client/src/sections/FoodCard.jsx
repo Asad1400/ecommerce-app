@@ -3,9 +3,14 @@ import { burgers, wraps, familydeal } from '../constants';
 import OurFoodCard from '../components/OurFoodCard';
 import FoodCardDetails from '../components/FoodCardDetails';
 
-const FoodCard = () => {
+const FoodCard = ({ addToCart }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddToCart = (customizedItem) => {
+    addToCart(customizedItem);
+    setIsModalOpen(false);
+  };
 
   const handleCardClick = (item) => {
     setSelectedItem(item);
@@ -45,14 +50,16 @@ const FoodCard = () => {
           ))}
         </div>
       </section>
-
       {selectedItem && (
         <FoodCardDetails
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           {...selectedItem}
+          onAddToCart={handleAddToCart}
         />
+
       )}
+
     </>
   );
 };
