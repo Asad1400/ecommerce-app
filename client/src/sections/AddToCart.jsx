@@ -1,15 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem }) => {
-  const navigate = useNavigate();
-  const totalPrice = items.reduce((total, item) => {
-    const basePrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
-    const extraCharge = (item.extra ? 2 : 0) + (item.sauce ? 2 : 0);
-    return total + (basePrice + extraCharge) * (item.quantity || 1);
-  }, 0);
-
 const AddToCart = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,7 +21,6 @@ const AddToCart = () => {
       }
     };
   }, []);
->>>>>>> parent of 2ef26ca (x)
 
 const AddToCart = ({ isOpen, onClose }) => {
   return (
