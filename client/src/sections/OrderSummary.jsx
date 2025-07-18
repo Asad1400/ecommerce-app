@@ -13,7 +13,7 @@ const OrderSummary = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const items = state?.items || [];
-
+  
   const itemsTotal = items.reduce((total, item) => {
     const basePrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
     const extraCharge = (item.extra ? 2 : 0) + (item.sauce ? 2 : 0);
@@ -23,13 +23,40 @@ const OrderSummary = () => {
   const codFee = 2;
   const totalPrice = itemsTotal + codFee;
 
-  const handleConfirm = () => {
-    if (!customerName || !address || !phone) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+  const handleConfirm = async () => {
+  if (!customerName || !address || !phone) {
+    alert("Please fill in all required fields.");
+    return;
+  }
 
-    setIsLoading(true);
+  setIsLoading(true);
+
+  const formattedItems = items.map((item) => ({
+    itemName: item.name,
+    quantity: item.quantity || 1,
+    price: parseFloat(item.price.replace(/[^\d.]/g, '')) || 0,
+    drink: item.drink,
+    sauce: item.sauce || 'None',
+    extra: item.extra || 'None'
+  }));
+
+  const orderData = {
+    customerName,
+    customerPhone: phone,
+    customerAddress: address,
+    paymentMethod,
+    totalPrice,
+    items: formattedItems
+  };
+
+  try {
+ 
+    await fetch("http://localhost:5000/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderData)
+    });
+
 
     const emailParams = {
       customer_name: customerName,
@@ -42,24 +69,22 @@ const OrderSummary = () => {
       )).join('\n'),
     };
 
-    emailjs.send(
-      'service_8edvd05',          
-      'template_tnxv3xe',         
+    await emailjs.send(
+      'service_8edvd05',
+      'template_tnxv3xe',
       emailParams,
-      '7WkvtQTTkyumR7h4B'         
-    )
-    .then(() => {
-      setIsLoading(false);
-      alert("Order Confirmed!");
-      navigate('/');
-    })
-    .catch((error) => {
-      console.error('Email sending failed:', error);
-      setIsLoading(false);
-      alert("Order confirmed");
-      navigate('/');
-    });
-  };
+      '7WkvtQTTkyumR7h4B'
+    );
+
+    setIsLoading(false);
+    alert("✅ Order confirmed and saved!");
+    navigate('/');
+  } catch (err) {
+    console.error("Error in order process:", err);
+    setIsLoading(false);
+    alert("❌ Something went wrong.");
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 mt-24">

@@ -14,7 +14,7 @@ const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem
     const cartIcon = document.getElementById("cart-icon");
 
     const handleClick = () => {
-      onClose?.(); // optional chaining to call onClose if it's passed
+      onClose?.();
     };
 
     if (cartIcon) {
@@ -80,7 +80,7 @@ const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem
                         Extra: {item.extra || "None"} {item.extra && "+ 2$"}
                       </p>
                       <p className="text-sm text-green-600 font-semibold">
-                        Total: ${itemTotal.toFixed(2)}
+                        Total: {item.price}
                       </p>
 
                       <div className="flex items-center gap-2 mt-1">
