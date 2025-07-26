@@ -21,17 +21,8 @@ const Login = () => {
 
   return (
     <div className="h-screen flex overflow-hidden font-[sans-serif]">
-      {/* Left side - Login Form */}
       <div className="w-full md:w-1/2 h-full px-[15px] py-[10px] bg-white shadow-xl relative flex flex-col items-center justify-center">
-        {/* Back Button */}
-        <Link to='/'>
-          <button
-            className="absolute top-6 left-6 flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm font-semibold transition duration-300"
-          >
-            <FaArrowLeft />
-            Back to Home
-          </button>
-        </Link>
+
 
         <div className="w-full max-w-md space-y-6 text-gray-700 mt-20 mb-10">
           <div className="text-center">

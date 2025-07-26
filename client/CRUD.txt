@@ -1,0 +1,247 @@
+import { useEffect, useState } from 'react';
+import { Alert, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+const ItemDisplay = () => {
+  const [products, setProducts] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
+
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('https://rhode-d444f-default-rtdb.firebaseio.com/Items.json');
+      const data = await response.json();
+
+      const productArray = [];
+      for (const key in data) {
+        productArray.push({
+          id: key,
+          name: data[key].name,
+          price: data[key].price,
+          description: data[key].description,
+        });
+      }
+      setProducts(productArray);
+    } catch (error) {
+      console.log('Error fetching products:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const DeleteItem = async (id) => {
+    try {
+      const response = await fetch(`https://rhode-d444f-default-rtdb.firebaseio.com/Items/${id}.json`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        Alert.alert('Deleted Successfully');
+        fetchProducts();
+      } else {
+        Alert.alert('Delete Error');
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const openModalForUpdate = (item) => {
+    setCurrentId(item.id);
+    setName(item.name);
+    setPrice(item.price);
+    setDescription(item.description);
+    setModalVisible(true);
+  };
+
+  const handleUpdate = async () => {
+    if (!currentId) return;
+
+    try {
+      const response = await fetch(
+        `https://rhode-d444f-default-rtdb.firebaseio.com/Items/${currentId}.json`,
+        {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: name,
+            price: price,
+            description: description,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        Alert.alert('Updated Successfully');
+        setModalVisible(false);
+        fetchProducts();
+      } else {
+        Alert.alert('Update Error');
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Modal visible={modalVisible} animationType="slide" onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Update Product</Text>
+          <TextInput
+            value={name}
+            style={styles.input}
+            placeholder="Enter Product Name"
+            onChangeText={(value) => setName(value)}
+          />
+          <TextInput
+            value={price}
+            style={styles.input}
+            placeholder="Enter Price"
+            keyboardType="numeric"
+            onChangeText={(value) => setPrice(value)}
+          />
+          <TextInput
+            value={description}
+            style={styles.input}
+            placeholder="Enter Description"
+            onChangeText={(value) => setDescription(value)}
+          />
+          <TouchableOpacity onPress={handleUpdate} style={styles.saveBtn}>
+            <Text style={styles.saveBtnText}>Save</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalVisible(false)} style={[styles.saveBtn, { backgroundColor: 'gray' }]}>
+            <Text style={styles.saveBtnText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Text style={styles.heading}>Products</Text>
+      {products.length === 0 ? (
+        <Text style={styles.empty}>No products found.</Text>
+      ) : (
+        <FlatList
+          data={products}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text style={styles.title}>{item.name}</Text>
+              <Text style={styles.price}>Price: {item.price}</Text>
+              <Text>{item.description}</Text>
+              <View style={styles.btnRow}>
+                <TouchableOpacity
+                  onPress={() => DeleteItem(item.id)}
+                  style={[styles.btn, { backgroundColor: 'red' }]}
+                >
+                  <Text style={styles.btnText}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => openModalForUpdate(item)}
+                  style={[styles.btn, { backgroundColor: '#50bfecff' }]}
+                >
+                  <Text style={styles.btnText}>Update</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        />
+      )}
+    </View>
+  );
+};
+
+export default ItemDisplay;
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16, backgroundColor: '#fff' },
+  heading: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
+  empty: { fontSize: 16, color: 'gray' },
+  card: { padding: 12, marginVertical: 8, backgroundColor: '#f1f1f1', borderRadius: 8 },
+  title: { fontSize: 18, fontWeight: 'bold' },
+  price: { color: 'green', marginVertical: 4 },
+  btnRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 },
+  btn: { flex: 1, marginHorizontal: 5, padding: 10, borderRadius: 20, alignItems: 'center' },
+  btnText: { fontSize: 16, color: 'white', fontWeight: 'bold' },
+
+  modalContent: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: '#ece474ff' },
+  modalTitle: { fontSize: 22, fontWeight: 'bold', marginBottom: 20 },
+  input: { borderWidth: 1, borderColor: '#50bfecff', borderRadius: 8, width: '100%', padding: 10, marginBottom: 12 },
+  saveBtn: { backgroundColor: '#50bfecff', padding: 15, borderRadius: 10, marginTop: 10, width: '100%', alignItems: 'center' },
+  saveBtnText: { color: 'white', fontWeight: 'bold', fontSize: 16 },
+});
+
+
+import { useState } from 'react'
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native'
+
+
+
+
+const AddProduct = () => {
+
+    const [name, setName] = useState('')
+    const [description, setdescription] = useState('')
+    const [price, setPrice] = useState('')
+
+    const AddItem = async() => {
+
+        try{
+            const response = await  fetch('https://rhode-d444f-default-rtdb.firebaseio.com/Items.json',{
+            method : 'POST',
+            headers : {
+                Accept : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({
+                name : name,
+                price : price,
+                description : description,
+            })
+        })
+        if(response.ok){
+            Alert.alert('Item addedd successfully!')
+            setName('')
+            setPrice('')
+            setdescription('')
+        }else{
+            Alert.alert('Error in  adding item!')
+        }
+        }
+        catch(error){
+            console.log(error.message);
+        }
+
+
+    }
+
+    return (
+        <View style={{ justifyContent: 'center', alignContent: 'center', display: 'flex' }}>
+
+            <View style={{ backgroundColor: '#ece474ff', borderColor: '#ece474ff', borderWidth: 10, borderRadius: 20 }}>
+                <TextInput value={name} style={{ borderWidth: 2, marginTop: 10, borderColor: '#50bfecff', borderRadius: 5 }} placeholder='Enter Product name' onChangeText={(value) => { setName(value) }} />
+                <TextInput value={price} style={{ borderWidth: 2, marginTop: 10, borderColor: '#50bfecff', borderRadius: 5 }} keyboardType='numeric' placeholder='Enter Price' onChangeText={(value) => { setPrice(value) }} />
+                <TextInput value={description} style={{ borderWidth: 2, marginTop: 10, borderColor: '#50bfecff', borderRadius: 5 }} placeholder='Enter Product Details' onChangeText={(value) => { setdescription(value) }} />
+
+
+                <View style={{ marginBottom: 20, marginTop: 30 }}>
+                    <TouchableOpacity onPress={AddItem} style={{ backgroundColor: '#50bfecff', borderRadius: 20, width: 250, height: 50, justifyContent: 'center', alignContent: 'center' }}>
+                        <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold', fontSize: 20, paddingTop: 10 }}>Add an Item</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
+    )
+}
+
+export default AddProduct
+
+
+

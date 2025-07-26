@@ -40,7 +40,7 @@ function App() {
   };
 
   return (
-    <main>
+    <main className="bg-white min-h-screen text-white">
       <div className="w-full h-full overflow-hidden">
         <Navbar cartItems={cartItems} setCartItems={setCartItems} />
         <AddToCart

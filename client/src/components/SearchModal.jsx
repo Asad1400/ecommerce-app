@@ -3,10 +3,8 @@ import React, { useState } from "react";
 const SearchModal = ({ isOpen, onClose, items = [] }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Combine all food items (burgers + wraps + familydeal)
   const allItems = items;
 
-  // Filter based on input
   const filteredItems = allItems.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -17,7 +15,6 @@ const SearchModal = ({ isOpen, onClose, items = [] }) => {
         isOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      {/* Header */}
       <div className="p-4 border-b flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-800">Search</h2>
         <button

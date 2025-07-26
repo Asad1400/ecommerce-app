@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 const HeroSlider = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-change every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
@@ -14,7 +13,6 @@ const HeroSlider = ({ images }) => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  // Handle dot click
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
