@@ -3,19 +3,31 @@ import { FaStar, FaQuoteLeft, FaUserCircle } from "react-icons/fa";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
+import { useEffect } from "react";
 
 const ReviewSection = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ name: "", comment: "", rating: 5 });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newReview.name && newReview.comment) {
-      const newEntry = { ...newReview, id: Date.now() };
-      setReviews([newEntry, ...reviews]);
+  useEffect(() => {
+  axios.get("http://localhost:5000/reviews")
+    .then(res => setReviews(res.data))
+    .catch(err => console.error(err));
+}, []);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (newReview.name && newReview.comment) {
+    try {
+      const res = await axios.post("http://localhost:5000/reviews", newReview);
+      setReviews([res.data, ...reviews]);
       setNewReview({ name: "", comment: "", rating: 5 });
+    } catch (err) {
+      console.error(err);
     }
-  };
+  }
+};
 
   // Dynamic settings based on review count
   const slidesToShowCount = Math.min(reviews.length, 3);

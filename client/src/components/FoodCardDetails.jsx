@@ -14,7 +14,6 @@ const FoodCardDetails = ({ isOpen, onClose, imgURL, name, description, price, on
           <FaTimes className="w-7 h-7" />
         </button>
 
-        {/* Food Info */}
         <div className="flex flex-row items-center gap-6 p-4 ">
           <div className="w-40 h-40 flex-shrink-0">
             <img
@@ -33,13 +32,17 @@ const FoodCardDetails = ({ isOpen, onClose, imgURL, name, description, price, on
         {/* Drink */}
         <div className="mt-4">
           <label className="block font-semibold">Choose Drink</label>
-          <select className="w-full border rounded p-2 mt-1" onChange={(e) => setDrink(e.target.value)} value={drink}>
-            <option value="coke">Coke</option>
-            <option value="sprite">Sprite</option>
-            <option value="water">Water</option>
-            <option value="DEW">DEW</option>
-            <option value="ZeroDietCoke">Zero Diet Coke</option>
-            <option value="SpriteMint">Sprite Mint</option>
+          <select
+            className="w-full border rounded p-2 mt-1 text-gray-800"
+            onChange={(e) => setDrink(e.target.value)}
+            value={drink}
+          >
+            <option className="text-gray-800" value="coke">Coke</option>
+            <option className="text-gray-800" value="sprite">Sprite</option>
+            <option className="text-gray-800" value="water">Water</option>
+            <option className="text-gray-800" value="DEW">DEW</option>
+            <option className="text-gray-800" value="ZeroDietCoke">Zero Diet Coke</option>
+            <option className="text-gray-800" value="SpriteMint">Sprite Mint</option>
           </select>
         </div>
 
@@ -48,7 +51,7 @@ const FoodCardDetails = ({ isOpen, onClose, imgURL, name, description, price, on
           <label className="block font-semibold">Select Sauce</label>
           <div className="flex gap-3 mt-1 flex-wrap accent-red-500">
             {['ketchup', 'mayo', 'BBQSauce', 'SmokeySauce'].map((s) => (
-              <label key={s}>
+              <label key={s} className="text-gray-800">
                 <input
                   type="radio"
                   name="sauce"
@@ -67,7 +70,7 @@ const FoodCardDetails = ({ isOpen, onClose, imgURL, name, description, price, on
           <label className="block font-semibold">Add Extras</label>
           <div className="flex gap-3 mt-1 flex-wrap accent-red-500">
             {['fries', 'cheese', 'waffle', 'loadedfries'].map((e) => (
-              <label key={e}>
+              <label key={e} className="text-gray-800">
                 <input
                   type="radio"
                   name="extras"
