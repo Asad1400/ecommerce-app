@@ -1,26 +1,34 @@
+// client/server.js
 import express from "express";
-import './db.js';
+import "./db.js";
 import cors from "cors";
 import Order from "./Order.js";
 import Review from "./Review.js";
+import User from "./User.js";
+import authRoutes from "./auth.js"; // Route for /api/auth/signup and /api/auth/login
 
 const app = express();
 const PORT = 5000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// ✅ Auth Routes (no changes to path)
+app.use("/api/auth", authRoutes);
+
+// ✅ Order Route
 app.post("/orders", async (req, res) => {
   try {
     const { customerName, customerPhone, customerAddress, paymentMethod, totalPrice, items } = req.body;
 
     const newOrder = new Order({
       userName: customerName,
-      userEmail: customerPhone, 
+      userEmail: customerPhone,
       address: customerAddress,
       paymentMethod,
       totalPrice,
-      items
+      items,
     });
 
     await newOrder.save();
@@ -31,6 +39,7 @@ app.post("/orders", async (req, res) => {
   }
 });
 
+// ✅ Review Submit Route
 app.post("/reviews", async (req, res) => {
   try {
     const { name, comment, rating } = req.body;
@@ -43,6 +52,7 @@ app.post("/reviews", async (req, res) => {
   }
 });
 
+// ✅ Review Fetch Route
 app.get("/reviews", async (req, res) => {
   try {
     const reviews = await Review.find().sort({ createdAt: -1 });
@@ -53,4 +63,5 @@ app.get("/reviews", async (req, res) => {
   }
 });
 
+// ✅ Server Listen
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

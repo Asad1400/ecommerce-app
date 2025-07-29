@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import banner1 from "../assets/banner1.jpg";
 import banner2 from "../assets/banner2.jpg";
 import banner3 from "../assets/banner3.jpg";
@@ -31,15 +32,39 @@ const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleNext = (e) => {
-    e.preventDefault();
-    if (step === 1 && formData.name && formData.email && formData.password) {
-      setStep(2);
-    }
-  };
-
   const handleStepClick = (stepNumber) => {
     setStep(stepNumber);
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (step === 1) {
+      if (formData.name && formData.email && formData.password) {
+        setStep(2);
+      } else {
+        alert("Please fill all fields in Step 1");
+      }
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/signup", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      alert("✅ Signup successful! Please login.");
+      window.location.href = "/login";
+    } catch (err) {
+      alert(err.response?.data?.error || "Signup failed");
+    }
   };
 
   return (
@@ -79,7 +104,7 @@ const Signup = () => {
             </p>
           </div>
 
-          <form className="space-y-5" onSubmit={handleNext}>
+          <form className="space-y-5" onSubmit={handleSignup}>
             {step === 1 && (
               <>
                 <div>
@@ -158,7 +183,6 @@ const Signup = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    required
                     className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="e.g., 03001234567"
                   />
@@ -172,7 +196,6 @@ const Signup = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    required
                     className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="Your address"
                   />

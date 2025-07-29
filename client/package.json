@@ -8,13 +8,16 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "backend": "node server.js"
+    "backend": "nodemon server.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "axios": "^1.11.0",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.17.0",
     "mongoos": "^0.0.1-security",
     "mongoose": "^8.16.4",
