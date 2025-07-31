@@ -89,9 +89,6 @@ const Login = () => {
                 <input type="checkbox" className="mr-2 accent-orange-500" />
                 Remember me
               </label>
-              <span className="text-amber-600 hover:underline cursor-pointer">
-                Forgot password?
-              </span>
             </div>
 
             <button
@@ -101,15 +98,6 @@ const Login = () => {
               Sign In
             </button>
           </form>
-
-          {/* Google Login (non-functional) */}
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-3 py-3 mt-4 border border-orange-400 text-orange-600 font-medium rounded-md hover:bg-orange-50 transition duration-300"
-          >
-            <FaGoogle className="text-lg" />
-            Sign in with Google
-          </button>
 
           {/* Errors */}
           {error && (
@@ -137,7 +125,7 @@ const Login = () => {
           <img
             src={banners[currentImageIndex]}
             alt="banner"
-            className="object-cover w-full h-full transition-opacity rounded-xl duration-1000"
+            className="object-cover w-[700px] h-full transition-opacity rounded-xl duration-1000"
           />
         </div>
       </div>

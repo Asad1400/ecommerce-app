@@ -68,10 +68,10 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden font-[sans-serif] bg-black text-white">
+    <div className="flex h-screen overflow-hidden font-[sans-serif]">
       {/* LEFT FORM */}
-      <div className="w-full md:w-1/2 h-full bg-black shadow-xl relative flex flex-col items-center justify-center">
-        {/* Steps */}
+      <div className="w-full md:w-1/2 h-full px-[15px] py-[10px] bg-white shadow-xl relative flex flex-col items-center justify-center">
+        {/* Step Indicator */}
         <div className="flex items-center justify-center mb-6">
           <button
             onClick={() => handleStepClick(1)}
@@ -96,11 +96,14 @@ const Signup = () => {
           </button>
         </div>
 
-        <div className="w-full max-w-md space-y-6">
+        {/* Form Content */}
+        <div className="w-full max-w-md space-y-6 text-gray-700">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-white">Create Account</h2>
-            <p className="text-sm text-gray-300 mt-1">
-              Join <span className="text-orange-500 font-semibold">Click2Eat</span> today!
+            <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Join{" "}
+              <span className="text-orange-500 font-semibold">Click2Eat</span>{" "}
+              today!
             </p>
           </div>
 
@@ -108,7 +111,7 @@ const Signup = () => {
             {step === 1 && (
               <>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-200">
+                  <label className="block text-sm font-medium mb-1">
                     Name
                   </label>
                   <input
@@ -117,12 +120,12 @@ const Signup = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="Your name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-200">
+                  <label className="block text-sm font-medium mb-1">
                     Email Address
                   </label>
                   <input
@@ -131,12 +134,12 @@ const Signup = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="you@example.com"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-200">
+                  <label className="block text-sm font-medium mb-1">
                     Password
                   </label>
                   <input
@@ -145,7 +148,7 @@ const Signup = () => {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="********"
                   />
                 </div>
@@ -161,7 +164,7 @@ const Signup = () => {
             {step === 2 && (
               <>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-200">
+                  <label className="block text-sm font-medium mb-1">
                     Confirm Password
                   </label>
                   <input
@@ -170,12 +173,12 @@ const Signup = () => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="********"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-200">
+                  <label className="block text-sm font-medium mb-1">
                     Phone Number
                   </label>
                   <input
@@ -183,12 +186,12 @@ const Signup = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="e.g., 03001234567"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-200">
+                  <label className="block text-sm font-medium mb-1">
                     Address
                   </label>
                   <input
@@ -196,7 +199,7 @@ const Signup = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="Your address"
                   />
                 </div>
@@ -210,10 +213,10 @@ const Signup = () => {
             )}
           </form>
 
-          <p className="text-sm text-center text-gray-400 mt-2 mb-10">
-            Already have an account?
-            <Link to="/Login">
-              <span className="text-orange-500 font-semibold ml-1 hover:underline">
+          <p className="text-sm text-center text-gray-600 mt-2 mb-10">
+            Already have an account?{" "}
+            <Link to="/login">
+              <span className="text-orange-500 font-semibold hover:underline cursor-pointer">
                 Login
               </span>
             </Link>
@@ -222,12 +225,12 @@ const Signup = () => {
       </div>
 
       {/* RIGHT IMAGE CONTAINER */}
-      <div className="hidden md:flex w-1/2 h-screen bg-black items-center justify-center">
-        <div className="relative flex items-center justify-center w-[80%] h-[80%]">
+      <div className="hidden md:block w-1/2 h-full">
+        <div className="w-full h-full rounded-xl overflow-hidden p-10">
           <img
             src={banners[currentImageIndex]}
             alt="banner"
-            className="max-w-full max-h-full object-contain"
+            className="object-cover w-[740px] h-full transition-opacity rounded-xl duration-1000"
           />
         </div>
       </div>
