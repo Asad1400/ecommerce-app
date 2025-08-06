@@ -1,22 +1,22 @@
-// client/src/Login.jsx
 import { useEffect, useState } from "react";
-import { FaUserCircle, FaGoogle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import banner1 from "../assets/banner1.jpg";
 import banner2 from "../assets/banner2.jpg";
 import banner3 from "../assets/banner3.jpg";
 import banner4 from "../assets/banner4.jpg";
 import banner5 from "../assets/banner5.jpg";
 import axios from "axios";
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 
 const banners = [banner1, banner2, banner3, banner4, banner5];
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate(); // for redirection
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,8 +39,10 @@ const Login = () => {
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+
       setSuccess("Login successful! Redirecting...");
-      // TODO: redirect to home/profile
+      if (onLogin) onLogin(user); // ✅ Notify App.jsx of logged-in user
+      navigate("/"); // ✅ Redirect to homepage
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
     }
@@ -115,7 +117,6 @@ const Login = () => {
               </span>
             </Link>
           </p>
-
         </div>
       </div>
 

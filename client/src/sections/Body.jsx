@@ -8,13 +8,22 @@ import banner5 from "../assets/banner3.jpg";
 import FoodCard from './FoodCard';
 import Footer from './Footer';
 
-function Body({ addToCart }) {
+function Body({ addToCart, user, allowedItems }) {
   const bannerImages = [banner1, banner2, banner3, banner4, banner5];
 
   return (
     <div className='w-full h-full overflow-hidden'>
+      {user && (
+        <div className="text-center py-4 bg-amber-100 text-amber-800 font-semibold">
+          Welcome back, {user.name}!
+        </div>
+      )}
+
       <HeroSlider images={bannerImages} />
-      <FoodCard addToCart={addToCart} />
+      
+      {/* ✅ Pass allowedItems to FoodCard */}
+      <FoodCard addToCart={addToCart} allowedItems={allowedItems} />
+
       <Footer />
     </div>
   );
