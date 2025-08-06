@@ -36,21 +36,13 @@ function App() {
     setShowCart(true)
   }
 
-    useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
-
   useEffect(() => {
+    // ✅ Load user cart on login
     if (user?.email) {
 <<<<<<< Updated upstream
       const savedCart = localStorage.getItem(`cart_${user.email}`)
 =======
       const savedCart = localStorage.getItem(`cart_${user.email}`);
-      setUser(user);
->>>>>>> Stashed changes
       if (savedCart) {
         setCartItems(JSON.parse(savedCart))
       }
