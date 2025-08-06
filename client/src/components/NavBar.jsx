@@ -12,16 +12,9 @@ const scrollToSection = (id) => {
   if (el) el.scrollIntoView({ behavior: "smooth" });
 };
 
-const Navbar = ({ cartItems, setCartItems, user, setUser }) => {
+const Navbar = ({ cartItems, setCartItems, user }) => {
   const [showCart, setShowCart] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("user"); // Clear user from local storage
-    setUser(null); // Clear user state
-    navigate("/login"); // Redirect to login
-  };
 
   const navItems = [
     { icon: <FaHome />, label: "Home", to: "/" },
@@ -85,27 +78,19 @@ const Navbar = ({ cartItems, setCartItems, user, setUser }) => {
               ))}
             </ul>
 
-            {/* User Info or Login */}
-            {user ? (
-              <div className="flex items-center space-x-3 text-white">
-                <span className="font-semibold text-orange-400">Hi, {user.name}</span>
-                <button
-                  onClick={handleLogout}
-                  className="px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <Link to="/Signup">
-                <div className="relative group">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
-                    <span className="absolute inset-0 border-2 border-orange-500 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
-                    <FaUser className="z-10 text-2xl text-white group-hover:text-orange-500 transition" />
-                  </div>
+            {/* User Icon (to profile if logged in, else to signup) */}
+            <Link to={user ? "/profile" : "/Signup"}>
+              <div className="group flex items-center space-x-2">
+                <div className="flex items-center justify-center h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                  <FaUser className="text-2xl text-white group-hover:text-orange-500 transition" />
                 </div>
-              </Link>
-            )}
+                {user && (
+                  <span className="text-white font-semibold group-hover:text-orange-400">
+                    {user.name}
+                  </span>
+                )}
+              </div>
+            </Link>
           </div>
         </div>
       </nav>
@@ -116,10 +101,15 @@ const Navbar = ({ cartItems, setCartItems, user, setUser }) => {
         onClose={() => setShowCart(false)}
         items={cartItems}
       />
+
       <SearchModal
         isOpen={showSearch}
         onClose={() => setShowSearch(false)}
         items={[...burgers, ...wraps, ...familydeal]}
+        onAddToCart={(item) => {
+          setCartItems((prev) => [...prev, item]);
+          setShowSearch(false); // Close modal after adding
+        }}
       />
 
       <Outlet />

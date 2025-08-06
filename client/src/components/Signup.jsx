@@ -37,35 +37,37 @@ const Signup = () => {
   };
 
   const handleSignup = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (step === 1) {
-      if (formData.name && formData.email && formData.password) {
-        setStep(2);
-      } else {
-        alert("Please fill all fields in Step 1");
-      }
-      return;
+  if (step === 1) {
+    if (formData.name && formData.email && formData.password) {
+      setStep(2);
+    } else {
+      alert("Please fill all fields in Step 1");
     }
+    return;
+  }
 
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+  if (formData.password !== formData.confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
 
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
+  try {
+    const res = await axios.post("http://localhost:5000/api/auth/signup", {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phone,
+      address: formData.address,
+    });
 
-      alert("✅ Signup successful! Please login.");
-      window.location.href = "/login";
-    } catch (err) {
-      alert(err.response?.data?.error || "Signup failed");
-    }
-  };
+    alert("✅ Signup successful! Please login.");
+    window.location.href = "/login";
+  } catch (err) {
+    alert(err.response?.data?.error || "Signup failed");
+  }
+};
 
   return (
     <div className="flex h-screen overflow-hidden font-[sans-serif]">

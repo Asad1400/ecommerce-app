@@ -13,11 +13,6 @@ function Body({ addToCart, user, allowedItems }) {
 
   return (
     <div className='w-full h-full overflow-hidden'>
-      {user && (
-        <div className="text-center py-4 bg-amber-100 text-amber-800 font-semibold">
-          Welcome back, {user.name}!
-        </div>
-      )}
 
       <HeroSlider images={bannerImages} />
       

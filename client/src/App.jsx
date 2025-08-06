@@ -13,15 +13,22 @@ import Signup from './components/Signup'
 import AddToCart from './sections/AddToCart'
 import Login from './components/Login'
 import Profile from './components/Profile'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Body from './sections/Body'
 import OrderSummary from './sections/OrderSummary'
+import FoodCardDetails from './components/FoodCardDetails'
 
 function App() {
   const [cartItems, setCartItems] = useState([])
   const [showCart, setShowCart] = useState(false)
   const [user, setUser] = useState(null)
   const [userCartNames, setUserCartNames] = useState([])
+
+  const location = useLocation()
+
+  // ✅ Define routes where Navbar should be hidden
+  const hideNavbarRoutes = ['/login', '/signup', '*']
+  const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname)
 
   const addToCart = (item) => {
     const newItem = { ...item, quantity: 1 }
@@ -30,16 +37,15 @@ function App() {
   }
 
   useEffect(() => {
-    // ✅ Load user cart on login
     if (user?.email) {
-      const savedCart = localStorage.getItem(`cart_${user.email}`);
+      const savedCart = localStorage.getItem(`cart_${user.email}`)
       if (savedCart) {
-        setCartItems(JSON.parse(savedCart));
+        setCartItems(JSON.parse(savedCart))
       }
     } else {
-      setCartItems([]); // reset cart if user logs out
+      setCartItems([])
     }
-  }, [user]);
+  }, [user])
 
   const handleQuantityChange = (index, newQty) => {
     const updated = [...cartItems]
@@ -52,20 +58,18 @@ function App() {
     setCartItems(updated)
   }
 
-  // ✅ When user logs in, fetch their cart items from backend
   useEffect(() => {
     const fetchUserCart = async () => {
       if (user && user._id) {
         try {
           const res = await fetch(`http://localhost:5000/cart/${user._id}`)
           const data = await res.json()
-          setCartItems(data) // If you want to load into cart view as well
-          setUserCartNames(data.map(item => item.name)) // Only names used for filtering
+          setCartItems(data)
+          setUserCartNames(data.map(item => item.name))
         } catch (err) {
           console.error('❌ Failed to fetch user cart:', err)
         }
       } else {
-        // If user logs out, clear cart visibility
         setUserCartNames([])
         setCartItems([])
       }
@@ -77,7 +81,17 @@ function App() {
   return (
     <main className="bg-white min-h-screen">
       <div className="w-full h-full overflow-hidden">
-        <Navbar cartItems={cartItems} setCartItems={setCartItems} user={user} setUser={setUser} /> 
+        
+        {/* ✅ Conditionally show Navbar */}
+        {shouldShowNavbar && (
+          <Navbar
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+            user={user}
+            setUser={setUser}
+          />
+        )}
+
         <AddToCart
           isOpen={showCart}
           onClose={() => setShowCart(false)}
@@ -85,6 +99,7 @@ function App() {
           onQuantityChange={handleQuantityChange}
           onDeleteItem={handleDeleteItem}
         />
+
         <Routes>
           <Route
             path="/"
@@ -99,6 +114,8 @@ function App() {
           <Route path="/login" element={<Login onLogin={setUser} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/order-summary" element={<OrderSummary />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/food/:id" element={<FoodCardDetails />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </div>
