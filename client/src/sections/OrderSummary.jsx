@@ -4,7 +4,7 @@ import emailjs from "@emailjs/browser";
 
 const OrderSummary = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user._id);
+  console.log(user ? user._id : "Guest user");  
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -43,14 +43,14 @@ const [phone, setPhone] = useState(user?.phone || "");
     }));
 
     const orderData = {
-      userId: user?._id || "guest",
-      customerName: user?.name || customerName,
-      customerPhone: phone,
-      customerAddress: address,
-      paymentMethod,
-      totalPrice,
-      items: formattedItems,
-    };
+  userId: user ? user._id : "guest",
+  customerName: user ? user.name : customerName,
+  customerPhone: user ? user.phone : phone,
+  customerAddress: address,
+  paymentMethod,
+  totalPrice,
+  items: formattedItems,
+};
 
     try {
       await fetch("http://localhost:5000/orders", {
