@@ -4,13 +4,13 @@ import emailjs from "@emailjs/browser";
 
 const OrderSummary = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.id);
+  console.log(user._id);
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const [customerName, setCustomerName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
+  const [customerName, setCustomerName] = useState(user?.name || "");
+const [address, setAddress] = useState(user?.address || "");
+const [phone, setPhone] = useState(user?.phone || "");
   const [paymentMethod] = useState("Cash on Delivery");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,6 +43,7 @@ const OrderSummary = () => {
     }));
 
     const orderData = {
+      userId: user?._id || "guest",
       customerName: user?.name || customerName,
       customerPhone: phone,
       customerAddress: address,
@@ -126,32 +127,30 @@ const OrderSummary = () => {
         </ul>
 
         <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-2">Delivery Information</h3>
-          {!user && (
-            <input
-              type="text"
-              placeholder="Enter Your Name"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-              className="w-full border rounded p-2 mb-3"
-            />
-          )}
-          <input
-            type="text"
-            placeholder="Enter Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full border rounded p-2 mb-3"
-          />
-          <input
-            type="tel"
-            placeholder="Enter Phone Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full border rounded p-2"
-          />
-        </div>
+  <h3 className="text-lg font-semibold mb-2">Delivery Information</h3>
 
+  <input
+    type="text"
+    placeholder="Enter Your Name"
+    value={customerName}
+    onChange={(e) => setCustomerName(e.target.value)}
+    className="w-full border rounded p-2 mb-3"
+  />
+  <input
+    type="text"
+    placeholder="Enter Address"
+    value={address}
+    onChange={(e) => setAddress(e.target.value)}
+    className="w-full border rounded p-2 mb-3"
+  />
+  <input
+    type="tel"
+    placeholder="Enter Phone Number"
+    value={phone}
+    onChange={(e) => setPhone(e.target.value)}
+    className="w-full border rounded p-2"
+  />
+</div>
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">Payment Method</h3>
           <select

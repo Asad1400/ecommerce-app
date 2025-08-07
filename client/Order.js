@@ -10,6 +10,11 @@ const itemSchema = new mongoose.Schema({
 });
 
 const orderSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // optional, but helpful for joins
+    required: true
+  },
   userName: String,
   userPhone: String,
   address: String,

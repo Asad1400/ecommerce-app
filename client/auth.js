@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// Login
+// ✅ Login (fixed _id issue)
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
     res.json({
       token,
       user: {
-        id: user._id,
+        _id: user._id, // ✅ Fixed: use _id instead of id
         name: user.name,
         email: user.email,
         phone: user.phone || "",
@@ -77,7 +77,7 @@ router.get("/profile", async (req, res) => {
   }
 });
 
-// ✅ Update profile
+// Update profile
 router.put("/update", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;

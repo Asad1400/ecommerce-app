@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Footer from './sections/Footer'
-import HeroSlider from "./sections/HeroSlider"
-import banner1 from "./assets/banner1.jpg"
-import banner2 from "./assets/banner2.jpg"
-import banner3 from "./assets/banner3.jpg"
-import banner4 from "./assets/banner4.jpg"
-import banner5 from "./assets/banner3.jpg"
+// import Footer from './sections/Footer'
+// import HeroSlider from "./sections/HeroSlider"
+// import banner1 from "./assets/banner1.jpg"
+// import banner2 from "./assets/banner2.jpg"
+// import banner3 from "./assets/banner3.jpg"
+// import banner4 from "./assets/banner4.jpg"
+// import banner5 from "./assets/banner3.jpg"
 import Navbar from './components/NavBar'
-import FoodCard from './sections/FoodCard'
+// import FoodCard from './sections/FoodCard'
 import Signup from './components/Signup'
 import AddToCart from './sections/AddToCart'
 import Login from './components/Login'
@@ -17,6 +17,8 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Body from './sections/Body'
 import OrderSummary from './sections/OrderSummary'
 import FoodCardDetails from './components/FoodCardDetails'
+import OrderHistory from "./sections/OrderHistory";
+import TrackOrderByPhone from './sections/TrackOrderByPhone'
 
 function App() {
   const [cartItems, setCartItems] = useState([])
@@ -35,14 +37,19 @@ function App() {
     setCartItems((prev) => [...prev, newItem])
     setShowCart(true)
   }
+  useEffect(() => {
+  const savedUser = localStorage.getItem("user");
+  if (savedUser) {
+    setUser(JSON.parse(savedUser));
+  }
+}, []);
 
   useEffect(() => {
     // ✅ Load user cart on login
     if (user?.email) {
-<<<<<<< Updated upstream
+
       const savedCart = localStorage.getItem(`cart_${user.email}`)
-=======
-      const savedCart = localStorage.getItem(`cart_${user.email}`);
+      // const savedCart = localStorage.getItem(`cart_${user.email}`);
       if (savedCart) {
         setCartItems(JSON.parse(savedCart))
       }
@@ -121,6 +128,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/food/:id" element={<FoodCardDetails />} />
           <Route path="*" element={<div>Page Not Found</div>} />
+          <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/track-order" element={<TrackOrderByPhone />} />
+
         </Routes>
       </div>
     </main>
