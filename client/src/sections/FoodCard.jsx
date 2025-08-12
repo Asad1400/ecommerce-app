@@ -42,7 +42,24 @@ const FoodCard = ({ addToCart, allowedItems }) => {
 
   return (
     <>
-      {renderSection('Family Deals', familydeal)}
+{renderSection('Family Deals', familydeal)}
+
+<section id="burger" className="my-10 px-4">
+  <h2 className="text-3xl font-bold mb-6 text-center text-red-700">Our Burgers</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {burgers.map((item) => (
+      <OurFoodCard
+        key={item.id}
+        {...item}
+        onClick={() => handleCardClick(item)}
+        inCart={allowedItems?.includes(item.name)}
+      />
+    ))}
+  </div>
+</section>
+
+{renderSection('Our Wraps', wraps)}
+
       {renderSection('Our Burgers', burgers)}
       {renderSection('Our Wraps', wraps)}
 

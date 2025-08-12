@@ -5,7 +5,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import AddToCart from "../sections/AddToCart";
 import SearchModal from "../components/SearchModal";
 import { burgers, wraps, familydeal } from "../constants/index";
-import React, {useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const scrollToSection = (id) => {
   const el = document.getElementById(id);
@@ -19,20 +19,20 @@ const Navbar = ({ cartItems, setCartItems, user }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   useEffect(() => {
-  const closeMenu = (e) => {
-    if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
-      setShowProfileMenu(false);
-    }
-  };
+    const closeMenu = (e) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
+      }
+    };
 
-  document.addEventListener("mousedown", closeMenu);
-  window.addEventListener("scroll", () => setShowProfileMenu(false));
+    document.addEventListener("mousedown", closeMenu);
+    window.addEventListener("scroll", () => setShowProfileMenu(false));
 
-  return () => {
-    document.removeEventListener("mousedown", closeMenu);
-    window.removeEventListener("scroll", () => setShowProfileMenu(false));
-  };
-}, []);
+    return () => {
+      document.removeEventListener("mousedown", closeMenu);
+      window.removeEventListener("scroll", () => setShowProfileMenu(false));
+    };
+  }, []);
 
   const navItems = [
     { icon: <FaHome />, label: "Home", to: "/" },
@@ -47,11 +47,18 @@ const Navbar = ({ cartItems, setCartItems, user }) => {
       id: "cart-icon",
       onClick: () => setShowCart((prev) => !prev),
     },
-    {
-      icon: <FaBurger />,
-      label: "Burger",
-      onClick: () => scrollToSection("burgers"),
-    },
+   {
+  icon: <FaBurger />,
+  label: "Burger",
+  onClick: () => {
+    if (window.location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => scrollToSection("burger"), 300);
+    } else {
+      scrollToSection("burger");
+    }
+  }
+},
   ];
 
   return (
@@ -68,91 +75,102 @@ const Navbar = ({ cartItems, setCartItems, user }) => {
           {/* Nav Items */}
           <div className="flex items-center space-x-6 font-bold text-white">
             <ul className="flex space-x-6">
-              {navItems.map((item, index) => (
-                <li
-                  key={index}
-                  className="relative group"
-                  id={item.id}
-                  onClick={item.onClick}
-                >
-                  {item.to ? (
-                    <Link to={item.to}>
-                      <div className="flex items-center justify-center h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
-                        <span className="absolute inset-0 border-2 border-orange-500 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
-                        <span className="z-10 text-2xl text-white group-hover:text-orange-500 transition">
-                          {item.icon}
-                        </span>
-                      </div>
-                    </Link>
-                  ) : (
-                    <div className="flex items-center justify-center h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
-                      <span className="absolute inset-0 border-2 border-orange-500 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
-                      <span className="z-10 text-2xl text-white group-hover:text-orange-500 transition">
-                        {item.icon}
-                      </span>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+  {navItems.map((item, index) => (
+    <li
+      key={index}
+      className="relative group cursor-pointer" // cursor-pointer here for all
+      id={item.id}
+      onClick={item.onClick}
+    >
+      {item.to ? (
+        <Link to={item.to}>
+          <div className="flex items-center justify-center h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 cursor-pointer">
+            <span className="absolute inset-0 border-2 border-orange-500 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
+            <span className="z-10 text-2xl text-white group-hover:text-orange-500 transition">
+              {item.icon}
+            </span>
+          </div>
+        </Link>
+      ) : (
+        <div className="flex items-center justify-center h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 cursor-pointer">
+          <span className="absolute inset-0 border-2 border-orange-500 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
+          <span className="z-10 text-2xl text-white group-hover:text-orange-500 transition">
+            {item.icon}
+          </span>
+        </div>
+      )}
+    </li>
+  ))}
+</ul>
 
             {/* Profile Dropdown */}
-<div className="relative">
-  <div
-    onClick={() => setShowProfileMenu((prev) => !prev)}
-    className="flex items-center justify-center h-10 w-10 rounded-full cursor-pointer transition-transform duration-300 hover:scale-110 hover:rotate-12"
-  >
-    <FaUser className="text-2xl text-white hover:text-orange-500 transition" />
-  </div>
+            <div className="relative">
+              <div
+                onClick={() => setShowProfileMenu((prev) => !prev)}
+                className="flex items-center justify-center h-10 w-10 rounded-full cursor-pointer transition-transform duration-300 hover:scale-110 hover:rotate-12"
+              >
+                {/* Added pulse border & hover animation for consistency */}
+                <span className="absolute inset-0 border-2 border-orange-500 rounded-full opacity-0 hover:opacity-100 animate-pulse"></span>
+                <FaUser className="z-10 text-2xl text-white hover:text-orange-500 transition" />
+              </div>
 
-  {showProfileMenu && (
-    <div ref={profileMenuRef} className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50">
-      {user ? (
-        <>
-          <div className="px-4 py-2 border-b font-semibold text-orange-500">
-            {user.name}
-          </div>
-          <Link
-            to="/profile"
-            className="block px-4 py-2 hover:bg-orange-100"
-            onClick={() => setShowProfileMenu(false)}
-          >
-            Profile
-          </Link>
-          <Link to="/track-order" className="px-4 py-2 hover:bg-orange-100">
-              Track Order
-          </Link>
+              {showProfileMenu && (
+                <div
+                  ref={profileMenuRef}
+                  className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50"
+                >
+                  {user ? (
+                    <>
+                      <div className="px-4 py-2 border-b font-semibold text-orange-500">
+                        {user.name}
+                      </div>
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 hover:bg-orange-100"
+                        onClick={() => setShowProfileMenu(false)}
+                      >
+                        Profile
+                      </Link>
+                      {/* Fixed Track Order button styling */}
+                      <Link
+                        to="/track-order"
+                        className="block px-4 py-2 hover:bg-orange-100"
+                        onClick={() => setShowProfileMenu(false)}
+                      >
+                        Track Order
+                      </Link>
 
-          <Link
-            to="/order-history"
-            className="block px-4 py-2 hover:bg-orange-100"
-            onClick={() => setShowProfileMenu(false)}
-          >
-            Order History
-          </Link>
+                      <Link
+                        to="/order-history"
+                        className="block px-4 py-2 hover:bg-orange-100"
+                        onClick={() => setShowProfileMenu(false)}
+                      >
+                        Order History
+                      </Link>
 
-          <button
-            onClick={() => {
-              localStorage.removeItem("user");
-              window.location.href = "/";
-            }}
-            className="w-full text-left px-4 py-2 hover:bg-orange-100"
-          >
-            Logout
-          </button>
-        </>
-      ) : (
-        <Link
-          to="/signup"
-          className="block px-4 py-2 hover:bg-orange-100"
-          onClick={() => setShowProfileMenu(false)}
-        >
-          Signup
-        </Link>
-      )}
-    </div>
-  )}
-</div>
+                      {/* Logout button with red style */}
+                      <button
+                        onClick={() => {
+                          localStorage.removeItem("user");
+                          window.location.href = "/";
+                        }}
+                        className="w-full text-left px-4 py-2 text-red-500 hover:bg-orange-100 rounded-b"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <Link
+                      to="/signup"
+                      className="block px-4 py-2 hover:bg-orange-100"
+                      onClick={() => setShowProfileMenu(false)}
+                    >
+                      Signup
+                    </Link>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>
