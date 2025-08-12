@@ -59,11 +59,17 @@ router.get("/profile", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return res.status(401).json({ error: "No token provided" });
     }
 
     const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
 
     const user = await User.findById(decoded.userId).select("-password");
     if (!user) {
@@ -73,7 +79,7 @@ router.get("/profile", async (req, res) => {
     res.json(user);
   } catch (error) {
     console.error("Profile error:", error.message);
-    res.status(500).json({ error: "Failed to fetch profile" });
+    res.status(500).json({ error: "Server error while fetching profile" });
   }
 });
 
@@ -82,11 +88,17 @@ router.put("/update", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return res.status(401).json({ error: "No token provided" });
     }
 
     const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
 
     const { name, phone, address } = req.body;
 
@@ -100,10 +112,13 @@ router.put("/update", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: updatedUser
+    });
   } catch (error) {
     console.error("Update error:", error.message);
-    res.status(500).json({ error: "Failed to update profile" });
+    res.status(500).json({ error: "Server error while updating profile" });
   }
 });
 

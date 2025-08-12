@@ -109,6 +109,7 @@ function App() {
           items={cartItems}
           onQuantityChange={handleQuantityChange}
           onDeleteItem={handleDeleteItem}
+          onClearCart={() => setCartItems([])}
         />
 
         <Routes>

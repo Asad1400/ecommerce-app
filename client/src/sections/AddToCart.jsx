@@ -1,11 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem }) => {
+const AddToCart = ({
+  isOpen,
+  onClose,
+  items = [],
+  onQuantityChange,
+  onDeleteItem,
+  onClearCart,
+}) => {
   const navigate = useNavigate();
 
-  const totalPrice = items.reduce((total, item) => {
-    const basePrice = parseFloat((item.price || "").replace(/[^\d.]/g, '')) || 0;
+  // Filter out zero-price items
+  const validItems = items.filter(item => {
+    const basePrice =
+      parseFloat((item.price || "").replace(/[^\d.]/g, "")) || 0;
+    return basePrice > 0;
+  });
+
+  const totalPrice = validItems.reduce((total, item) => {
+    const basePrice =
+      parseFloat((item.price || "").replace(/[^\d.]/g, "")) || 0;
     const extraCharge = (item.extra ? 2 : 0) + (item.sauce ? 2 : 0);
     return total + (basePrice + extraCharge) * (item.quantity || 1);
   }, 0);
@@ -45,17 +60,22 @@ const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem
       </div>
 
       <div className="p-4 overflow-y-auto max-h-[calc(100%-160px)]">
-        {items.length === 0 ? (
+        {validItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
           <ul className="space-y-4">
-            {items.map((item, index) => {
-              const basePrice = parseFloat((item.price || "").replace(/[^\d.]/g, '')) || 0;
+            {validItems.map((item, index) => {
+              const basePrice =
+                parseFloat((item.price || "").replace(/[^\d.]/g, "")) || 0;
               const extraCharge = (item.extra ? 2 : 0) + (item.sauce ? 2 : 0);
-              const itemTotal = (basePrice + extraCharge) * (item.quantity || 1);
+              const itemTotal =
+                (basePrice + extraCharge) * (item.quantity || 1);
 
               return (
-                <li key={index} className="border p-2 rounded shadow-sm relative">
+                <li
+                  key={index}
+                  className="border p-2 rounded shadow-sm relative"
+                >
                   <button
                     className="absolute top-1 right-1 text-red-500 text-xs hover:text-red-700"
                     onClick={() => onDeleteItem(index)}
@@ -71,8 +91,12 @@ const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem
                     />
                     <div className="flex-1">
                       <h4 className="font-bold">{item.name}</h4>
-                      <p className="text-sm text-gray-600">{item.description}</p>
-                      <p className="text-sm text-gray-600">Drink: {item.drink}</p>
+                      <p className="text-sm text-gray-600">
+                        {item.description}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Drink: {item.drink}
+                      </p>
                       <p className="text-sm text-gray-600">
                         Sauce: {item.sauce || "None"} {item.sauce && "+ 2$"}
                       </p>
@@ -87,7 +111,10 @@ const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem
                         <button
                           className="px-2 py-1 border rounded text-sm"
                           onClick={() =>
-                            onQuantityChange(index, Math.max((item.quantity || 1) - 1, 1))
+                            onQuantityChange(
+                              index,
+                              Math.max((item.quantity || 1) - 1, 1)
+                            )
                           }
                         >
                           -
@@ -111,7 +138,7 @@ const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem
         )}
       </div>
 
-      {items.length > 0 && (
+      {validItems.length > 0 && (
         <div className="p-4 border-t">
           <div className="flex justify-between mb-3">
             <span className="font-semibold">Total:</span>
@@ -120,10 +147,20 @@ const AddToCart = ({ isOpen, onClose, items = [], onQuantityChange, onDeleteItem
             </span>
           </div>
           <button
-            className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600"
+            className={`w-full py-2 rounded text-white ${
+              totalPrice > 0
+                ? "bg-yellow-500 hover:bg-yellow-600"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
+            disabled={totalPrice <= 0}
             onClick={() => {
-              onClose();
-              navigate('/order-summary', { state: { items } });
+              if (totalPrice > 0) {
+                onClose();
+                navigate("/order-summary", { state: { items: validItems } });
+                if (typeof onClearCart === "function") {
+                  onClearCart();
+                }
+              }
             }}
           >
             Place Order
