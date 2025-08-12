@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      default: "", // Optional; add validation if required
+      default: "",
     },
     address: {
       type: String,

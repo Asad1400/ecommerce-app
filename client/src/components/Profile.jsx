@@ -16,7 +16,6 @@ const Profile = () => {
     setProfileData({ ...profileData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Save updated profile
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");

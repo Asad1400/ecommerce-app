@@ -41,8 +41,8 @@ const Login = ({ onLogin }) => {
       localStorage.setItem("user", JSON.stringify(user));
 
       setSuccess("Login successful! Redirecting...");
-      if (onLogin) onLogin(user); // ✅ Notify App.jsx of logged-in user
-      navigate("/"); // ✅ Redirect to homepage
+      if (onLogin) onLogin(user); 
+      navigate("/"); 
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
     }

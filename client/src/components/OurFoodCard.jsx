@@ -5,15 +5,13 @@ const OurFoodCard = ({ imgURL, name, price, description, onClick }) => {
   const navigate = useNavigate();
 
   const handleOrderClick = (e) => {
-    e.stopPropagation(); // To prevent triggering the parent onClick
+    e.stopPropagation();
     const user = localStorage.getItem('user');
 
     if (!user) {
-      // If user is not logged in, redirect to Login
       alert('Please log in to place an order.');
       navigate('/login');
     } else {
-      // If user is logged in, proceed with order
       onClick();
     }
   };
